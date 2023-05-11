@@ -19,6 +19,7 @@ function App() {
 
 	const [account, setAccount] = useState(null)
 	const [nftBalance, setNftBalance] = useState(0)
+	const [maxSupply, setMaxSupply] = useState(0)
 
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -42,7 +43,9 @@ function App() {
 		// setNftBalance(nftBalance)
 		// console.log(accountBalance)
 
-		// const maxSupply = await swiftees.maxSupply()
+		const maxSupply = await swiftees.maxSupply()
+		// setMaxSupply(maxSupply.toNumber())
+		console.log(maxSupply)
 
 		setIsLoading(false)
 
@@ -59,7 +62,7 @@ function App() {
 			<Navigation />
 			<hr />
 			{account && (
-				<Info account={account} nftBalance={nftBalance} />
+				<Info account={account} nftBalance={nftBalance} maxSupply={maxSupply} />
 			)}
 		</Container>		
 	)

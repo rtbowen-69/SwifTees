@@ -26,6 +26,9 @@ contract SwifTees is ERC721Enumerable, Ownable {
     string memory _initBaseURI,
     string memory _initNotRevealedUri
   ) ERC721(_name, _symbol) {
+    require(_maxSupply > 0, 'Max supply must be greater than 0');
+    require(_maxSupply <= 500, 'Max supply cannot exceed 500');
+
 
     cost = _cost;
     maxSupply = _maxSupply;
