@@ -45,24 +45,11 @@ contract SwifTees is ERC721Enumerable, Ownable {
   // public
   mapping(address => bool) private hasMinted;
 
-  function mint(uint256 _mintAmount) public payable {
-    uint256 supply = totalSupply();
-    // uint256 remainingTokens = maxSupply - supply;
-    require(!paused);
-    require(_mintAmount > 0, 'Need to mint at least 1 token');
-    require(_mintAmount <= maxMintAmount);
-    require(supply + _mintAmount <= maxSupply, 'Sold Out');
-    require(!hasMinted[msg.sender], 'SwifTees token already minted!'); // Ensure that the caller hasn't already minted an NFT
-
-    if (msg.sender != owner()) {
-      require(msg.value >= cost * _mintAmount);
-    }
-
-    for (uint256 i = 1; i <= _mintAmount; i++) {
-      _safeMint(msg.sender, supply + i);
-    }
-
-    hasMinted[msg.sender] = true; // Mark that the caller has now minted an NFT    
+  function mint() external {
+      require(nextTokenId <= MAX_NFT_SUPPLY, "Maximum number of NFTs reached");
+      require(balanceOf(msg.sender) == 0, "You can only purchase one SwifTee");
+      _safeMint(msg.sender, nextTokenId);
+      nextTokenId++;
   }
 
   function walletOfOwner(address _owner)

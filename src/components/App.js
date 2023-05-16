@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 // Components
 import Navigation from './Navigation';
 import Info from './Info';
+import Mint from './Mint';
+
 
 // abis
 import TOKEN_ABI from '../abis/SwifTees.json'
@@ -29,9 +31,9 @@ function App() {
 		setProvider(provider)
 
 		// Initiate contract
-		const token = new ethers.Contract(config[31337].swiftees.address, TOKEN_ABI, provider)
-		setSwiftees(token)
-		console.log(token.address)
+		const swiftees = new ethers.Contract(config[31337].swiftees.address, TOKEN_ABI, provider)
+		setSwiftees(swiftees)
+		console.log(swiftees.address)
 
 		// Fetch Account
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -39,12 +41,12 @@ function App() {
 		setAccount(account)		// Add to state
 
 		// Check NFT Balance
-		// const accountBalance = await token.balanceOf(swiftees.address)
-		// setNftBalance(nftBalance)
+		const accountBalance = await swiftees.balanceOf(swiftees.address)
+		setNftBalance(nftBalance)
 		// console.log(accountBalance)
 
 		const maxSupply = await swiftees.maxSupply()
-		// setMaxSupply(maxSupply.toNumber())
+		setMaxSupply(Number(maxSupply))
 		console.log(maxSupply)
 
 		setIsLoading(false)
@@ -60,10 +62,18 @@ function App() {
 	return(
 		<Container>
 			<Navigation />
+			<p className='text-center'><strong>Current Available SwifTees NFTs:</strong>  "SoldOut"</p>
 			<hr />
 			{account && (
 				<Info account={account} nftBalance={nftBalance} maxSupply={maxSupply} />
 			)}
+
+			<Mint 
+				provider={provider}
+				nftBalance={nftBalance}
+				setIsLoading={setIsLoading}
+			/>
+
 		</Container>		
 	)
 }
