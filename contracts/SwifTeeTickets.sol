@@ -72,12 +72,6 @@ contract SwifTeeTickets is ERC721, Pausable, Ownable {
 		_unpause();
 	}
 
-	// function safeMint(address to) public {
-	// 	uint256 tokenId = _tokenIdCounter.current();
-	// 	_tokenIdCounter.increment();
-	// 	_safeMint(to, tokenId);
-	// }
-
 	function withdraw() public payable onlyOwner {
     (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
     require(success, "Withdrawal failed");

@@ -8,6 +8,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract SwifTees is ERC721Enumerable, Ownable {
   using Strings for uint256;
 
+  mapping(address => uint256) public purchases;
+
   string baseURI;
   string public baseExtension = ".json";
   uint256 public cost = 0.00 ether;
@@ -46,10 +48,10 @@ contract SwifTees is ERC721Enumerable, Ownable {
   mapping(address => bool) private hasMinted;
 
   function mint() external {
-      require(nextTokenId <= MAX_NFT_SUPPLY, "Maximum number of NFTs reached");
-      require(balanceOf(msg.sender) == 0, "You can only purchase one SwifTee");
-      _safeMint(msg.sender, nextTokenId);
-      nextTokenId++;
+    require(nextTokenId <= MAX_NFT_SUPPLY, "Maximum number of NFTs reached");
+    require(balanceOf(msg.sender) == 0, "You can only purchase one SwifTee");
+    _safeMint(msg.sender, nextTokenId);
+    nextTokenId++;
   }
 
   function walletOfOwner(address _owner)
