@@ -169,10 +169,6 @@ describe('SwifTeeTickets', () => {
               
       })
 
-      it('', async () => {
-      
-      })
-
     })
 
   })
@@ -207,12 +203,7 @@ describe('SwifTeeTickets', () => {
       expect(tokenIds[1].toString()).to.equal('2')
       expect(tokenIds[2].toString()).to.equal('3')
     })
-
-   
-    it('', async () => {
-            
-    })
-
+  
   })
 
   describe('Withdrawing Balances', () => {
@@ -221,6 +212,7 @@ describe('SwifTeeTickets', () => {
     describe('Success', async () => {
       const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
       const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
+      const COST = ether(.001)
 
       beforeEach(async () => {
         const SwifTeeTickets = await ethers.getContractFactory('SwifTeeTickets')
@@ -234,7 +226,7 @@ describe('SwifTeeTickets', () => {
         BASE_URI
         )
 
-        transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
+        transaction = await swifteetickets.connect(minter).mint(3, { value: COST * 3 })
         result = await transaction.wait()
 
         balanceBefore = await ethers.provider.getBalance(deployer.address)
@@ -244,18 +236,26 @@ describe('SwifTeeTickets', () => {
       })
 
       it('deducts contract balance', async () => {
-        const balanceBefore = await ethers.provider.getBalance(deployer.address)
-
         expect(await ethers.provider.getBalance(swifteetickets.address)).to.equal(0) 
-
-        const balanceAfter = await ethers.provider.getBalance(deployer.address)
-        const sentAmount = balanceAfter.sub(balanceBefore)
-        console.log("Sent amount to the owner:", sentAmount.toString())
       })
 
       it('sends funds to the owner', async () => {
-        expect(await ethers.provider.getBalance(deployer.address)).to.be.greaterThan(balanceBefore)     
+        expect(await ethers.provider.getBalance(deployer.address)).to.be.greaterThan(balanceBefore)
       })
+
+      it('emits a withdraw event', async () => {
+        expect(transaction).to.emit(swifteetickets, 'Withdraw')
+          .withArgs(COST, deployer.address)
+      })
+
+      it("should allow the owner to change the cost", async () => {
+        const newCost = ether(1)
+
+        await swifteetickets.connect(deployer).setCost(newCost) // Call the setCost function as the owner        
+        const updatedCost = await swifteetickets.cost() // Get the updated cost value        
+        expect(updatedCost).to.equal(newCost) // Assert that the cost was successfully updated
+        console.log("updatedCost:", ethers.utils.formatEther(updatedCost))
+      })              
 
     })
 
@@ -280,8 +280,17 @@ describe('SwifTeeTickets', () => {
         result = await transaction.wait()
       })
 
-      it('', async () => {
-              
+      it('prevents non-owner from withdrawing', async () => {
+        await expect(swifteetickets.connect(minter).withdraw()).to.be.reverted
+      })
+
+      it("should revert when non-owner tries to change the cost", async () => {
+        const newCost = ether(1);
+        
+        await expect(swifteetickets.connect(minter).setCost(newCost)).to.be.reverted // Call the setCost function as the nonowner
+        const updatedCost = await swifteetickets.cost() // Get the updated cost value
+        expect(updatedCost).to.not.equal(newCost) // Assert that the cost was successfully updated
+        console.log("updatedCost:", ethers.utils.formatEther(updatedCost))
       })
 
       it('', async () => {

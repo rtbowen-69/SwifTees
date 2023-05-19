@@ -16,6 +16,7 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable {
   string public baseExtension = '.json'; //Shows the base for NFTs
 
   event Mint(uint256 amount, address minter); //sets the Mint emit function
+  event Withdraw(uint256 amount, address owner); // Allows owner to withdraw funds from contract
 
   constructor(
     string memory _name,
@@ -93,6 +94,20 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable {
     (bool success, ) = payable(msg.sender).call{value: balance}("");
     require(success);
 
+    emit Withdraw(balance, msg.sender);     // Emits the sctual withdraw
+
+  }
+  
+  function setCost(uint256 _newCost) public onlyOwner {
+    cost = _newCost;
+  }
+
+  function setPresaleMinting(uint256 _newPresaleMinting) public onlyOwner {
+    presaleMinting = _newPresaleMinting;
+  }
+
+  function setAllowPublicMintingOn(uint256 _newAllowPublicMintingOn) public onlyOwner {
+    allowPublicMintingOn = _newAllowPublicMintingOn;
   }
 
 }
