@@ -94,7 +94,7 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
     (bool success, ) = payable(msg.sender).call{value: balance}("");
     require(success);
 
-    emit Withdraw(balance, msg.sender);     // Emits the sctual withdraw
+    emit Withdraw(balance, msg.sender);     // Emits the actual withdraw
 
   }
   

@@ -80,25 +80,27 @@ describe('SwifTees', () => {
   describe('Minting', () => {
     let transaction, result
 
-    describe('Success', async () => {
+    beforeEach(async () => {
+      
       const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
       const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
 
-      beforeEach(async () => {
-        const SwifTees = await ethers.getContractFactory('SwifTees')
-        swiftees = await SwifTees.deploy(
-        NAME,
-        SYMBOL,
-        COST,
-        MAX_SUPPLY,
-        PRESALEMINT_ON,
-        PUBLICMINT_ON,
-        BASE_URI
-        )
+      const SwifTees = await ethers.getContractFactory('SwifTees')
+      swiftees = await SwifTees.deploy(
+      NAME,
+      SYMBOL,
+      COST,
+      MAX_SUPPLY,
+      PRESALEMINT_ON,
+      PUBLICMINT_ON,
+      BASE_URI
+      )
 
-        transaction = await swiftees.connect(minter).mint(1, { value: COST })
-        result = await transaction.wait()
-      })
+      transaction = await swiftees.connect(minter).mint(1, { value: COST })
+      result = await transaction.wait()
+    })
+
+    describe('Success', async () => {
 
       it('updates total supply', async () => {
         expect(await swiftees.totalSupply()).to.equal(1)      
@@ -124,26 +126,7 @@ describe('SwifTees', () => {
 
     })
 
-
     describe('Failure', async () => {
-      const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
-      const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
-
-      beforeEach(async () => {
-        const SwifTees = await ethers.getContractFactory('SwifTees')
-        swiftees = await SwifTees.deploy(
-        NAME,
-        SYMBOL,
-        COST,
-        MAX_SUPPLY,
-        PRESALEMINT_ON,
-        PUBLICMINT_ON,
-        BASE_URI
-        )
-
-        transaction = await swiftees.connect(minter).mint(1, { value: COST })
-        result = await transaction.wait()
-      })
 
       it('rejects insuffcient payment', async () => {
         await expect(swiftees.connect(minter).mint(4, { value: ether(.003) })).to.be.reverted

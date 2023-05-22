@@ -38,7 +38,6 @@ describe('SwifTeeTickets', () => {
       PRESALEMINT_ON,
       PUBLICMINT_ON,
       BASE_URI
-
       )
     })
 
@@ -80,25 +79,26 @@ describe('SwifTeeTickets', () => {
   describe('Minting', () => {
     let transaction, result
 
+    const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
+    const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
+
+    beforeEach(async () => {
+      const SwifTeeTickets = await ethers.getContractFactory('SwifTeeTickets')
+      swifteetickets = await SwifTeeTickets.deploy(
+      NAME,
+      SYMBOL,
+      COST,
+      MAX_SUPPLY,
+      PRESALEMINT_ON,
+      PUBLICMINT_ON,
+      BASE_URI
+      )
+
+      transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
+      result = await transaction.wait()
+    })
+
     describe('Success', async () => {
-      const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
-      const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
-
-      beforeEach(async () => {
-        const SwifTeeTickets = await ethers.getContractFactory('SwifTeeTickets')
-        swifteetickets = await SwifTeeTickets.deploy(
-        NAME,
-        SYMBOL,
-        COST,
-        MAX_SUPPLY,
-        PRESALEMINT_ON,
-        PUBLICMINT_ON,
-        BASE_URI
-        )
-
-        transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
-        result = await transaction.wait()
-      })
 
       it('updates total supply', async () => {
         expect(await swifteetickets.totalSupply()).to.equal(1)      
@@ -124,26 +124,7 @@ describe('SwifTeeTickets', () => {
 
     })
 
-
     describe('Failure', async () => {
-      const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
-      const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
-
-      beforeEach(async () => {
-        const SwifTeeTickets = await ethers.getContractFactory('SwifTeeTickets')
-        swifteetickets = await SwifTeeTickets.deploy(
-        NAME,
-        SYMBOL,
-        COST,
-        MAX_SUPPLY,
-        PRESALEMINT_ON,
-        PUBLICMINT_ON,
-        BASE_URI
-        )
-
-        transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
-        result = await transaction.wait()
-      })
 
       it('rejects insuffcient payment', async () => {
         await expect(swifteetickets.connect(minter).mint(4, { value: ether(.003) })).to.be.reverted
@@ -163,10 +144,6 @@ describe('SwifTeeTickets', () => {
 
       it('rejects public minting before public mint is open', async () => {
        await expect(swifteetickets.connect(minter).mint(4, { value: COST })).to.be.reverted
-      })
-
-      it('', async () => {
-              
       })
 
     })
@@ -259,7 +236,6 @@ describe('SwifTeeTickets', () => {
 
     })
 
-
     describe('Failure', async () => {
       const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
       const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
@@ -293,9 +269,9 @@ describe('SwifTeeTickets', () => {
         console.log("updatedCost:", ethers.utils.formatEther(updatedCost))
       })
 
-      it('', async () => {
+      // it('', async () => {
       
-      })
+      // })
 
     })
 
