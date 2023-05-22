@@ -22,7 +22,7 @@ async function main() {
   const NAME = 'SwifTeeTickets'
   const SYMBOL = 'STT'
   const COST = ethers.utils.parseUnits('.001', 'ether')
-  const MAX_SUPPLY = 500
+  const MAX_SUPPLY = 100
   const NFT_MINT_DATE = (Date.now() + 120000).toString().slice(0, 10)
   const IPFS_METADATA_URI = 'ipfs://QmQ2jnDYecFhrf3asEWjyjZRX1pZSsNWG3qHzmNDvXa9qg/'
 
