@@ -4,8 +4,10 @@ pragma solidity ^0.8.7;
 import "./ERC721Enumerable.sol";  // contract and also includes ERC721 for inheritance 
 import "./Ownable.sol";
 import "./SwifTees.sol";
+import "./Pausable.sol";
 
-contract SwifTeeTickets is ERC721Enumerable, Ownable {
+
+contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
   using Strings for uint256;
 
 	uint256 public cost;
@@ -102,12 +104,31 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable {
     cost = _newCost;
   }
 
-  function setPresaleMinting(uint256 _newPresaleMinting) public onlyOwner {
-    presaleMinting = _newPresaleMinting;
+  function setPresaleMintOn(uint256 _newPresaleMintOn) public onlyOwner {
+    presaleMinting = _newPresaleMintOn;
   }
 
   function setAllowPublicMintingOn(uint256 _newAllowPublicMintingOn) public onlyOwner {
     allowPublicMintingOn = _newAllowPublicMintingOn;
   }
+
+  function pause() public onlyOwner {
+      _pause();
+  }
+
+  function unpause() public onlyOwner {
+      _unpause();
+  }
+ 
+  function _pause() internal override(Pausable) {
+    super._pause();
+    
+  }
+
+  function _unpause() internal override(Pausable) {
+    super._unpause();
+    
+  }
+
 
 }

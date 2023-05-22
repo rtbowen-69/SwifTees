@@ -102,12 +102,12 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
     cost = _newCost;
   }
 
-  function setPresaleMinting(uint256 _newPresaleMinting) public onlyOwner {
-    presaleMinting = _newPresaleMinting;
+  function setPresaleMintOn(uint256 _newPresaleMintOn) public onlyOwner {
+    presaleMinting = _newPresaleMintOn;
   }
 
-  function setAllowPublicMintingOn(uint256 _newAllowPublicMintingOn) public onlyOwner {
-    allowPublicMintingOn = _newAllowPublicMintingOn;
+  function setPublicMintOn(uint256 _newPublicMintOn) public onlyOwner {
+    allowPublicMintingOn = _newPublicMintOn;
   }
 
   function pause() public onlyOwner {
@@ -116,6 +116,14 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
 
   function unpause() public onlyOwner {
       _unpause();
+  }
+
+  function _pause() internal override(Pausable) {
+    super._pause();    
+  }
+
+  function _unpause() internal override(Pausable) {
+    super._unpause();    
   }
 
 }
