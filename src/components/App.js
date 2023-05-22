@@ -10,6 +10,7 @@ import Mint from './Mint';
 
 // abis
 import TOKEN_ABI from '../abis/SwifTees.json'
+import TICKET_ABI from '../abis/SwifTeeTickets.json'
 
 // config
 import config from '../config.json';
@@ -18,6 +19,7 @@ function App() {
 
 	const [provider, setProvider] = useState(null)
 	const [swiftees, setSwiftees] = useState(null)
+	const [swifteetickets, setSwifTeeTickets] = useState(null)
 
 	const [account, setAccount] = useState(null)
 	const [nftBalance, setNftBalance] = useState(0)
@@ -31,9 +33,23 @@ function App() {
 		setProvider(provider)
 
 		// Initiate contract
-		const swiftees = new ethers.Contract(config[31337].swiftees.address, TOKEN_ABI, provider)
-		setSwiftees(swiftees)
-		console.log(swiftees.address)
+		const swifteesAddress = config[31337].swiftees.address
+		const swifteeTicketsAddress = config[31337].swifteetickets.address
+
+		if (swifteesAddress) {
+
+			const swiftees = new ethers.Contract(config[31337].swiftees.address, TOKEN_ABI, provider)
+			const swifteeTickets = new ethers.Contract(config[31337]?.swifteeTickets?.address, TICKET_ABI, provider)
+
+			setSwiftees(swiftees)
+			setSwifTeeTickets(swifteetickets)
+
+			console.log(swiftees.address)
+			console.log(swifteetickets.address)
+
+		} else {
+			console.error('Invalid swiftees address in the config file')
+		}
 
 		// Fetch Account
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })

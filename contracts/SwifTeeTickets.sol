@@ -70,7 +70,7 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
     override
     returns(string memory)
   {
-    require(_exists(_tokenId), "NFT does not exist"); // looks to make sure token exists _exists is a library function
+    require(_exists(_tokenId), "Ticket does not exist"); // looks to make sure token exists _exists is a library function
     return(
       string(
         abi.encodePacked(
