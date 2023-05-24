@@ -87,10 +87,9 @@ function App() {
 		const nftCostWei = await swiftees.cost()
 		const ticketCostWei = await swifteetickets.cost()
 
-		const nftCost = ethers.utils.formatEther(nftCostWei)
 		const ticketCost = ethers.utils.formatEther(ticketCostWei)
 
-		setNftCost(nftCost)
+		setNftCost(nftCostWei.toString())
 		setTicketCost(ticketCost)
 		console.log(nftCost)
 		console.log(ticketCost)
@@ -124,44 +123,47 @@ function App() {
 		<Container>
 			<Navigation account={account} />
 			<hr />
-				<Row>
-					<Col>
-						{nftBalance > 0 ? (
-							<div className='text-center'>
-								<img
-									src={`https://ipfs.io/ipfs/QmcKo8rtvQAHWLMEahKnmfPQUnRnjUyaPziYGZZggozNyG/${nftBalance.toString()}.png`}
-									alt='SwifTees'
-									width='400px'
-									height='400px'
-								/>
+				<div className='tab' >
+					<button className='tablinks' onclick=''/>
+				</div>
+					<Row>
+						<Col>
+							{nftBalance > 0 ? (
+								<div className='text-center'>
+									<img
+										src={`https://ipfs.io/ipfs/QmcKo8rtvQAHWLMEahKnmfPQUnRnjUyaPziYGZZggozNyG/${nftBalance.toString()}.png`}
+										alt='SwifTees'
+										width='400px'
+										height='400px'
+									/>
+								</div>
+							) : (
+								<img src={showcase} alt=''/>
+							) }
+
+						</Col>
+
+						<Col>
+							<div className='my-4 text-center'>
+								<Countdown date={Date.now() + 2200000} className='h2' />
 							</div>
-						) : (
-							<img src={showcase} alt=''/>
-						) }
 
-					</Col>
+							<Info 
+								nftMaxSupply={nftMaxSupply}
+								nftTotalSupply={nftTotalSupply}
+								nftCost={nftCost}
+								nftBalance={nftBalance}
+							/>
 
-					<Col>
-						<div className='my-4 text-center'>
-							<Countdown date={Date.now() + 2200000} className='h2' />
-						</div>
+							<NFTMint 
+								provider={provider}
+								swiftees={swiftees}
+								nftCost={nftCost}
+								setIsLoading={setIsLoading}
+							/>
+						</Col>
 
-						<Info 
-							nftMaxSupply={nftMaxSupply}
-							nftTotalSupply={nftTotalSupply}
-							nftCost={nftCost}
-							nftBalance={nftBalance}
-						/>
-
-						<NFTMint 
-							provider={provider}
-							swiftees={swiftees}
-							nftCost={nftCost}
-							setIsLoading={setIsLoading}
-						/>
-					</Col>
-
-				</Row>
+					</Row>
 			
 			<hr />
 			

@@ -17,6 +17,10 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
   string public baseURI;  // .json Metadata hash for images
   string public baseExtension = '.json'; //Shows the base for NFTs
 
+  mapping(address => uint256) public mintedNFTs; //Keeps track of number of NFTs minted by wallet
+  mapping(address => bool) public whitelist; // Mapping to store whitelist status of wallets
+
+
   event Mint(uint256 amount, address minter); //sets the Mint emit function
   event Withdraw(uint256 amount, address owner); // Allows owner to withdraw funds from contract
 
@@ -38,11 +42,24 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
  
   }
 
+  function addToWhitelist(address[] calldata _wallets) external onlyOwner {
+    for (uint256 i = 0; i < _wallets.length; i++) {
+      whitelist[_wallets[i]] = true;
+    }
+  }
+
+  function removeFromWhitelist(address[] calldata _wallets) external onlyOwner {
+    for (uint256 i = 0; i < _wallets.length; i++) {
+      whitelist[_wallets[i]] = false;
+    }
+  }
+ 
   function mint(uint256 _mintAmount) public payable {   // _mintAmount
 
-    require(block.timestamp >= presaleMinting, "Presale minting is still active");  // check if presale is over
-    require(block.timestamp >= allowPublicMintingOn, "Public minting is not yet open");
+    require(block.timestamp >= presaleMinting || whitelist[msg.sender], "Address not whitelisted ot presale minting is still active");  // check if presale is over
+    require(block.timestamp >= allowPublicMintingOn || whitelist[msg.sender], "Public minting is not yet open");
 
+    require(mintedNFTs[msg.sender] == 0 , 'Only one NFT can be minted per wallet');
     require(_mintAmount > 0, "Must purchase minimum of one ticket");
 
     require(msg.value >= cost * _mintAmount, "Not enough ETH for purchase"); //Require enough payment
@@ -51,11 +68,13 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
 
     require(supply + _mintAmount <= maxSupply, "Exceeds maximum NFTs available");
 
-    require(balanceOf(msg.sender) + _mintAmount <= 4, "Exceeds maximum tickets allowed per wallet");
+    require(balanceOf(msg.sender) + _mintAmount <= 1, "Exceeds maximum tickets allowed per wallet");
 
     for(uint256 i = 1; i <= _mintAmount; i ++) {  //Loops through until reaching _mintAmount
       _safeMint(msg.sender, supply + i );          // adds to mint count and loops bach through
     }
+
+    mintedNFTs[msg.sender] ++ ;// Increment the number of NFT minted by callers wallet
 
     emit Mint(_mintAmount, msg.sender);
 
