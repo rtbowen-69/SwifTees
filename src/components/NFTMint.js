@@ -4,31 +4,34 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { ethers } from 'ethers';
 
-const Mint = ({provider, swiftees, cost, setIsLoading }) => {
+const NFTMint = ({provider, swiftees, nftCost, setIsLoading }) => {
 	const [isWaiting, setIsWaiting] = useState(false)
 
-	const mintHandler = async (e) => {
+	const nftMintHandler = async (e) => {
 		e.preventDefault()
+		console.log('minting...')
 		setIsWaiting(true)
 
 		try {
 			const signer = await provider.getSigner()
-			const transaction = await swiftees.connect(signer).mint(1, { value: cost })
-			await transaction.wait()		
+			const transaction = await swiftees.connect(signer).mint(1, { value: nftCost })
+			await transaction.wait()
 
 		} catch {
 			window.alert('User rejected or transaction reverted')
 		}
+
+		setIsLoading(true)
 	}
 
 	return(
-		<Form onSubmit={mintHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
+		<Form onSubmit={nftMintHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
 			{isWaiting ? (
 				<Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
-			): (
+			)	: (
 				<Form.Group>
-					<Button variant="primary" type="submit" style ={{ width: '50%' }}>
-						Mint
+					<Button variant="primary" type="submit" style ={{ width: '100%' }}>
+						NFTMint
 					</Button>
 				</Form.Group>
 			)}
@@ -36,4 +39,4 @@ const Mint = ({provider, swiftees, cost, setIsLoading }) => {
 	)
 }
 
-export default Mint;
+export default NFTMint;

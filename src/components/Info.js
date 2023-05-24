@@ -1,12 +1,15 @@
-const Info = ({ account, nftBalance, maxSupply }) => {
+import { ethers } from 'ethers'
+
+const Info = ({ nftMaxSupply, nftTotalSupply, nftCost, nftBalance }) => {
+
 	return(
-		<div className="my-3">
-			<p><strong>Account:</strong> {account}</p>
-			<p><strong>NFTs Owned:</strong> {nftBalance}</p>
-			<div><strong>Max Supply: </strong> {maxSupply}</div>
+		<div className='text-center'>
+			<p><strong>Available to Mint:</strong> {nftMaxSupply - nftTotalSupply} </p>
+			<p><strong>Cost to Mint:</strong> {nftCost} ETH</p>
+			<p><strong>SwifTees you currently own:</strong> {nftBalance} </p>
+
 		</div>
 	)
 }
 
 export default Info;
-
