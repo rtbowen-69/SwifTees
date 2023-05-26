@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.7;
 
 import "./ERC721Enumerable.sol";  // contract and also includes ERC721 for inheritance 
@@ -19,6 +19,8 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
 
   event Mint(uint256 amount, address minter); //sets the Mint emit function
   event Withdraw(uint256 amount, address owner); // Allows owner to withdraw funds from contract
+  SwifTees private swifteesContract; // Reference to the SwifTees contract
+
 
   constructor(
     string memory _name,
@@ -27,7 +29,9 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
     uint256 _maxSupply,
     uint256 _presaleMinting,
     uint256 _allowPublicMintingOn,
-    string memory _baseURI
+    string memory _baseURI,
+    address _swifteesContractAddress // Address of the SwifTees contract
+
 
   ) ERC721 (_name, _symbol) {
     cost = _cost; //Setting cost of NFTs
@@ -35,7 +39,8 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
     presaleMinting = _presaleMinting; // Set time for presale
     allowPublicMintingOn = _allowPublicMintingOn; // set time for all public
     baseURI = _baseURI; //.json metadata hash
- 
+    swifteesContract = SwifTees(_swifteesContractAddress);
+
   }
 
   function mint(uint256 _mintAmount) public payable {   // _mintAmount
@@ -47,8 +52,14 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
 
     require(msg.value >= cost * _mintAmount, "Not enough ETH for purchase"); //Require enough payment
 
-    //  require(swifteeContract.balanceOf(msg.sender) > 0, "Caller does not own a SwifTee NFT");  // Check if caller owns a SwifTee NFT
-    
+    if (block.timestamp < presaleMinting) {
+        // Presale minting period - Only SwifTee holders can purchase
+        require(swifteesContract.balanceOf(msg.sender) > 0, "Caller does not own a SwifTee NFT");
+    } else if (block.timestamp < allowPublicMintingOn) {
+        // Public minting not yet allowed
+        revert("Public minting is not yet open");
+    }
+
     uint256 supply = totalSupply();
 
     require(supply + _mintAmount <= maxSupply, "Exceeds maximum NFTs available");

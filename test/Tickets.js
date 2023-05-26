@@ -11,12 +11,14 @@ describe('SwifTeeTickets', () => {
   const NAME = 'SwifTeeTickets'
   const SYMBOL = 'STT'
   const COST = ether(.001)
-  const MAX_SUPPLY = 500 //Defines max supply for test
+  const MAX_SUPPLY = 100 //Defines max supply for test
   const BASE_URI = 'ipfs://QmUCvi3BRHERZa3xhUHvQ1GzAa3uwT2wXdoRGZGkWfMwEt/' // Hard Code for test .json hash
+  const SWIFTEES_CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
   let swifteetickets, 
       deployer,
-      minter
+      minter, 
+      accounts
 
   beforeEach(async () => {
     let accounts = await ethers.getSigners()
@@ -37,7 +39,8 @@ describe('SwifTeeTickets', () => {
       MAX_SUPPLY,
       PRESALEMINT_ON,
       PUBLICMINT_ON,
-      BASE_URI
+      BASE_URI,
+      SWIFTEES_CONTRACT_ADDRESS
       )
     })
 
@@ -91,7 +94,8 @@ describe('SwifTeeTickets', () => {
       MAX_SUPPLY,
       PRESALEMINT_ON,
       PUBLICMINT_ON,
-      BASE_URI
+      BASE_URI,
+      SWIFTEES_CONTRACT_ADDRESS
       )
 
       transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
@@ -165,7 +169,8 @@ describe('SwifTeeTickets', () => {
       MAX_SUPPLY,
       PRESALEMINT_ON,
       PUBLICMINT_ON,
-      BASE_URI
+      BASE_URI,
+      SWIFTEES_CONTRACT_ADDRESS
       )
 
       transaction = await swifteetickets.connect(minter).mint(3, { value: COST * 3 })
@@ -200,7 +205,8 @@ describe('SwifTeeTickets', () => {
         MAX_SUPPLY,
         PRESALEMINT_ON,
         PUBLICMINT_ON,
-        BASE_URI
+        BASE_URI,
+        SWIFTEES_CONTRACT_ADDRESS
         )
 
         transaction = await swifteetickets.connect(minter).mint(3, { value: COST * 3 })
@@ -249,7 +255,8 @@ describe('SwifTeeTickets', () => {
         MAX_SUPPLY,
         PRESALEMINT_ON,
         PUBLICMINT_ON,
-        BASE_URI
+        BASE_URI,
+        SWIFTEES_CONTRACT_ADDRESS
         )
 
         transaction = await swifteetickets.connect(minter).mint(1, { value: COST })

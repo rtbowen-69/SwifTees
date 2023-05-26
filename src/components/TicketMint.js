@@ -4,16 +4,16 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { ethers } from 'ethers';
 
-const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showcase}) => {
+const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, selectedImage, showcase}) => {
 	const [isWaiting, setIsWaiting] = useState(false)
 
-	const nftMintHandler = async (e) => {
+	const nticketMintHandler = async (e) => {
 		e.preventDefault()
 		setIsWaiting(true)
 
 		try {
 			const signer = await provider.getSigner()
-			const transaction = await swiftees.connect(signer).mint('1', { value: nftCost })
+			const transaction = await swifteetickets.connect(signer).mint('1', { value: ticketCost })
 			await transaction.wait()
 
 		} catch (error) {
@@ -31,8 +31,8 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <>
-              {nftBalance > 0 ? (
-                <img src={selectedImage} alt="SwifTees" width="450px" height="450px" />
+              {ticketBalance > 0 ? (
+                <img src={selectedImage} alt="" width="450px" height="450px" />
               ) : (
                 <img src={showcase} alt="" />
               )}
@@ -41,13 +41,13 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
         </div>
       </div>
       <div className="col-md-center">
-        <Form onSubmit={nftMintHandler} style={{ maxWidth: '400px', margin: '0 auto' }}>
+        <Form onSubmit={ticketMintHandler} style={{ maxWidth: '400px', margin: '0 auto' }}>
           {isWaiting ? (
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <Form.Group>
               <Button variant="primary" type="submit" style={{ width: '100%' }}>
-                NFTMint
+                TicketMint
               </Button>
             </Form.Group>
           )}
@@ -57,4 +57,4 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
 	)
 }
 
-export default NFTMint;
+export default TicketMint;
