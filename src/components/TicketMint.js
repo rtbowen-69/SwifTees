@@ -4,57 +4,50 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { ethers } from 'ethers';
 
-const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, selectedImage, showcase}) => {
-	const [isWaiting, setIsWaiting] = useState(false)
+const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance}) => {
+  const [isLoading, setIsLoading] = useState(false)
 
-	const nticketMintHandler = async (e) => {
-		e.preventDefault()
-		setIsWaiting(true)
+  const ticketMintHandler = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-		try {
-			const signer = await provider.getSigner()
-			const transaction = await swifteetickets.connect(signer).mint('1', { value: ticketCost })
-			await transaction.wait()
+    try {
+      const signer = await provider.getSigner()
+      const transaction = await swifteetickets.connect(signer).mint('1', { value: ticketCost })
+      await transaction.wait()
 
-		} catch (error) {
+    } catch (error) {
       window.alert('An error has occurred. Please try again later');
     }
 
-		setIsWaiting(false)
-	}
+    setIsLoading(false)
+  }
 
-	return(
-   <div className="row"> 
-      <div className="col-md-4">
-        <div className="text-center">
-          {isWaiting ? (
-            <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
+  return(
+    <div className="text-center">
+      {isLoading ? (
+        <Spinner 
+          animation="border"
+          style={{ display: 'block', margin: '0 auto' }}
+        />
+      ) : (
+        <>
+          {ticketBalance >= 4 ? (
+            <p>You already have the Maximum of 4 Tickets</p>
           ) : (
-            <>
-              {ticketBalance > 0 ? (
-                <img src={selectedImage} alt="" width="450px" height="450px" />
-              ) : (
-                <img src={showcase} alt="" />
-              )}
-            </>
+            <Button 
+              variant="primary"
+              type="submit"
+              style={{ width: '10%' }}
+              onClick={ticketMintHandler}
+            >
+              TicketMint
+            </Button>
           )}
-        </div>
-      </div>
-      <div className="col-md-center">
-        <Form onSubmit={ticketMintHandler} style={{ maxWidth: '400px', margin: '0 auto' }}>
-          {isWaiting ? (
-            <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
-          ) : (
-            <Form.Group>
-              <Button variant="primary" type="submit" style={{ width: '100%' }}>
-                TicketMint
-              </Button>
-            </Form.Group>
-          )}
-        </Form>
-      </div>
+        </>
+      )}
     </div>
-	)
+  )
 }
 
 export default TicketMint;

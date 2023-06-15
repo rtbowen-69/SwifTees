@@ -98,6 +98,13 @@ describe('SwifTeeTickets', () => {
       SWIFTEES_CONTRACT_ADDRESS
       )
 
+      // Mint a SwifTee NFT to the minter address before running other tests
+      const SwifTees = await ethers.getContractFactory('SwifTees')
+      swiftees = await SwifTees.deploy()
+      await swiftees.connect(minter).mint()
+      await swiftees.transferFrom(minter.address, swifteetickets.address, 0) // Transfer the NFT to the SwifTeeTickets contract      
+      console.log('Total Supply Before: ', (await swifteetickets.totalSupply()).toString())
+
       transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
       result = await transaction.wait()
     })
@@ -107,6 +114,7 @@ describe('SwifTeeTickets', () => {
       it('updates total supply', async () => {
         expect(await swifteetickets.totalSupply()).to.equal(1)      
       })
+      console.log('Total Supply Before: ', (await swifteetickets.totalSupply()).toString());
 
       it('updates the contract ether balance', async () => {
         expect(await ethers.provider.getBalance(swifteetickets.address)).to.equal(COST)      

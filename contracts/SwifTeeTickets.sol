@@ -45,26 +45,24 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
 
   function mint(uint256 _mintAmount) public payable {   // _mintAmount
 
-    require(block.timestamp >= presaleMinting, "Presale minting is still active");  // check if presale is over
-    require(block.timestamp >= allowPublicMintingOn, "Public minting is not yet open");
+    require(
+      block.timestamp >= presaleMinting || swifteesContract.balanceOf(msg.sender) > 0,
+      "Presale minting is still active or caller does not own a SwifTee NFT"
+    );
 
     require(_mintAmount > 0, "Must purchase minimum of one ticket");
-
     require(msg.value >= cost * _mintAmount, "Not enough ETH for purchase"); //Require enough payment
-
-    if (block.timestamp < presaleMinting) {
-        // Presale minting period - Only SwifTee holders can purchase
-        require(swifteesContract.balanceOf(msg.sender) > 0, "Caller does not own a SwifTee NFT");
-    } else if (block.timestamp < allowPublicMintingOn) {
-        // Public minting not yet allowed
-        revert("Public minting is not yet open");
-    }
 
     uint256 supply = totalSupply();
 
-    require(supply + _mintAmount <= maxSupply, "Exceeds maximum NFTs available");
-
-    require(balanceOf(msg.sender) + _mintAmount <= 4, "Exceeds maximum tickets allowed per wallet");
+    if (block.timestamp > presaleMinting) {
+        require(swifteesContract.balanceOf(msg.sender) > 0, "Caller does not own a SwifTee NFT"); // Presale minting period - Only SwifTee holders can purchase
+        require(balanceOf(msg.sender) + _mintAmount <= 4, "Exceeds maximum tickets allowed per wallet");
+    } else if (block.timestamp < allowPublicMintingOn) {
+        revert("Public minting is not yet open"); // Public minting not yet allowed
+    } else {
+      require(supply + _mintAmount <= maxSupply, "Exceeds Maximum number of Tickets available for this event");
+    }
 
     for(uint256 i = 1; i <= _mintAmount; i ++) {  //Loops through until reaching _mintAmount
       _safeMint(msg.sender, supply + i );       // adds to mint count and loops bach through

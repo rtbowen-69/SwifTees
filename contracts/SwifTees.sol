@@ -19,6 +19,7 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
 
   mapping(address => uint256) public mintedNFTs; //Keeps track of number of NFTs minted by wallet
   mapping(address => bool) public whitelist; // Mapping to store whitelist status of wallets
+  mapping(uint256 => address) private _nftOwners; //Mapping stores the addresses of swiftees NFT holders 
 
 
   event Mint(uint256 amount, address minter); //sets the Mint emit function
@@ -72,9 +73,12 @@ contract SwifTees is ERC721Enumerable, Ownable, Pausable {
 
     for(uint256 i = 1; i <= _mintAmount; i ++) {  //Loops through until reaching _mintAmount
       _safeMint(msg.sender, supply + i );          // adds to mint count and loops bach through
+      _nftOwners[supply + i] = msg.sender;        // Set the ownership of the minted NFT to the callers address
     }
 
-    mintedNFTs[msg.sender] ++ ;// Increment the number of NFT minted by callers wallet
+    mintedNFTs[msg.sender] ++; // Increment the number of NFT minted by callers wallet
+
+    whitelist[msg.sender] = true;
 
     emit Mint(_mintAmount, msg.sender);
 

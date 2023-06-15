@@ -5,11 +5,11 @@ import Spinner from 'react-bootstrap/Spinner';
 import { ethers } from 'ethers';
 
 const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showcase}) => {
-	const [isWaiting, setIsWaiting] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const nftMintHandler = async (e) => {
 		e.preventDefault()
-		setIsWaiting(true)
+		setIsLoading(true)
 
 		try {
 			const signer = await provider.getSigner()
@@ -20,14 +20,14 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
       window.alert('An error has occurred. Please try again later');
     }
 
-		setIsWaiting(false)
+		setIsLoading(false)
 	}
 
 	return(
    <div className="row"> 
       <div className="col-md-4">
         <div className="text-center">
-          {isWaiting ? (
+          {isLoading ? (
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <>
@@ -42,7 +42,7 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
       </div>
       <div className="col-md-center">
         <Form onSubmit={nftMintHandler} style={{ maxWidth: '400px', margin: '0 auto' }}>
-          {isWaiting ? (
+          {isLoading ? (
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <Form.Group>

@@ -35,6 +35,11 @@
         "internalType": "string",
         "name": "_baseURI",
         "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "_swifteesContractAddress",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
