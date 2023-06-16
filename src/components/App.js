@@ -181,7 +181,7 @@ function App() {
                 <Nav.Link eventKey="nftMint">NFT Mint</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="ticketMint">Ticket Mint</Nav.Link>
+                <Nav.Link eventKey="ticketMint">Fan Mint</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="concerts">Concerts </Nav.Link>
@@ -216,11 +216,20 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <div className="my-4 text-center">
-                      <Countdown date={parseInt(nftPresaleMinting, 10)} className="h2" />
+                    <div className="my-2 text-center">
+                      {Number(nftPresaleMinting) > 0 ? (
+                        <span>Time left till Presale :<Countdown date={Number(nftPresaleMinting)} className="h6" /></span>
+                      ) : (
+                        <span>Presale Minting is Open</span>
+                      )}
                     </div>
-                    <div className="my-4 text-center">
-                      <Countdown date={parseInt(nftPublicMinting, 10)} className="h2" />
+
+                    <div className="my-2 text-center">
+                      {Number(nftPublicMinting) > 0 ? (
+                        <span>Time left till Public Sale :<Countdown date={Number(nftPublicMinting)} className="h6" /></span>
+                      ) : (
+                        <span>Public Sale Now Open</span>
+                      )}
                     </div>                    
                     <Info
                       nftMaxSupply={nftMaxSupply}
@@ -254,11 +263,19 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <div className="my-4 text-center">
-                      <Countdown date={parseInt(ticketPresaleMinting, 10)} className="h2" />
+                    <div className="my-2 text-center">
+                      {Number(ticketPresaleMinting) > 0 ? (
+                        <span>Time left till Ticket Presale :<Countdown date={Number(ticketPresaleMinting)} className="h6" /></span>
+                      ) : (
+                        <span>Presale Now Open</span>
+                      )}
                     </div>
-                    <div className="my-4 text-center">
-                      <Countdown date={parseInt(ticketPublicMinting, 10)} className="h2" />
+                    <div className="my-2 text-center">
+                      {Number(ticketPublicMinting) > 0 ? (
+                        <span>Time left till Ticket Public Sale :<Countdown date={Number(ticketPublicMinting)} className="h6" /></span>
+                      ) : (
+                        <span>Public Now Open</span>
+                      )}
                     </div>
                     <TicketInfo
                       ticketMaxSupply={ticketMaxSupply}
