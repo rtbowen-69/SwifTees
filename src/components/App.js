@@ -267,7 +267,7 @@ function App() {
                       ticketBalance={ticketBalance.toString()}
                       ticketPublicMinting={ticketPublicMinting.toString()}
                     />
-                    {ticketBalance <= 4 && (
+                    {ticketBalance < 4 && (
                       <TicketMint
                         provider={provider}
                         swifteetickets={swifteetickets}

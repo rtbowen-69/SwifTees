@@ -8,7 +8,7 @@ const TicketInfo = ({ ticketMaxSupply, ticketTotalSupply, ticketCost, ticketBala
 		<div className='text-center'>
 			<p><strong>Available to Mint:</strong> {ticketMaxSupply - ticketTotalSupply} </p>
 			<p><strong>Cost to Mint:</strong> {formattedCost} ETH</p>
-			<p><strong>Tickets you currently own:</strong> {ticketBalance} </p>
+			<p><strong>Tickets you currently own:</strong> {ticketBalance.toString()} </p>
 		</div>
 	)
 }
