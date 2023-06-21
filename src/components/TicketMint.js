@@ -4,12 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { ethers } from 'ethers';
 
-const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance}) => {
-  const [isLoading, setIsLoading] = useState(false)
+const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, setIsLoading}) => {
 
   const ticketMintHandler = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
+    // setIsLoading(true)
 
     try {
       const signer = await provider.getSigner()
@@ -20,12 +19,12 @@ const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance}) => {
       window.alert('An error has occurred. Please try again later');
     }
 
-    setIsLoading(false)
+    setIsLoading(true)
   }
 
   return(
     <div className="text-center">
-      {isLoading ? (
+      {setIsLoading ? (
         <Spinner 
           animation="border"
           style={{ display: 'block', margin: '0 auto' }}

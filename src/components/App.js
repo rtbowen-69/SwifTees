@@ -34,6 +34,7 @@ function App() {
   
   const [ownerNFTImage, setOwnerNFTImage] = useState(null)
   const [swifteetickets, setSwifTeeTickets] = useState(null)
+  const [concertTickets, setConcertTickets] = useState(0)
 
   const [nftPresaleMinting, setNftPresaleMinting] = useState("0")
   const [nftPublicMinting, setNftPublicMinting] = useState("0")
@@ -217,7 +218,7 @@ function App() {
                 <Row>
                   <Col>
                     <div className="my-2 text-center">
-                      {Number(nftPresaleMinting) > 0 ? (
+                      {Number(nftPresaleMinting) > Date.now() ? (
                         <span>Time left till Presale :<Countdown date={Number(nftPresaleMinting)} className="h6" /></span>
                       ) : (
                         <span>Presale Minting is Open</span>
@@ -225,7 +226,7 @@ function App() {
                     </div>
 
                     <div className="my-2 text-center">
-                      {Number(nftPublicMinting) > 0 ? (
+                      {Number(nftPublicMinting) > Date.now() ? (
                         <span>Time left till Public Sale :<Countdown date={Number(nftPublicMinting)} className="h6" /></span>
                       ) : (
                         <span>Public Sale Now Open</span>
@@ -264,14 +265,14 @@ function App() {
                 <Row>
                   <Col>
                     <div className="my-2 text-center">
-                      {Number(ticketPresaleMinting) > 0 ? (
+                      {Number(ticketPresaleMinting) > Date.now() ? (
                         <span>Time left till Ticket Presale :<Countdown date={Number(ticketPresaleMinting)} className="h6" /></span>
                       ) : (
                         <span>Presale Now Open</span>
                       )}
                     </div>
                     <div className="my-2 text-center">
-                      {Number(ticketPublicMinting) > 0 ? (
+                      {Number(ticketPublicMinting) > Date.now() ? (
                         <span>Time left till Ticket Public Sale :<Countdown date={Number(ticketPublicMinting)} className="h6" /></span>
                       ) : (
                         <span>Public Now Open</span>
@@ -297,7 +298,20 @@ function App() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="concerts">
-                {/* Add your concerts component here */}
+                <div className="my-2 text-center">
+                  <div>
+                    <h3>Concert Details:</h3>
+                    <p>Date and Time: [Add concert date and time here]</p>
+                    <p>Name of Event: [Add event name here]</p>
+                    <p>Location: [Add event location here]</p>
+                    <p>Cost of Event: [Add event cost in Eth here]</p>
+                    {concertTickets > 0 ? (
+                      <button>Buy Tickets</button>
+                    ) : (
+                      <span>Sold Out</span>
+                    )}
+                  </div>
+                </div>
               </Tab.Pane>
 
               <Tab.Pane eventKey="merchandise">
