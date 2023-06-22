@@ -54,7 +54,7 @@ function App() {
   const [ticketCost, setTicketCost] = useState(0)
 
   const [isLoading, setIsLoading] = useState(true)
-  const [transactionCompleted, setTransactionCompleted] = useState(false)
+  // const [transactionCompleted, setTransactionCompleted] = useState(false)
 
   const updateNetworkId = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -148,13 +148,15 @@ function App() {
     }
 
     setIsLoading(false)
-    setTransactionCompleted(true)
+    // setTransactionCompleted(true)
 
     // refresh account on change
     window.ethereum.on('accountsChanged', async () => {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) // returns current account connected to metamask after changing it
       const account = ethers.utils.getAddress(accounts[0])
-      setAccount(account)      
+      setAccount(account)
+      setIsLoading(true)
+
     })
   }
 
@@ -167,7 +169,7 @@ function App() {
     }
 
     fetchData()
-  }, []);
+  }, [isLoading]);
 
   return (
     <Container>
@@ -243,7 +245,7 @@ function App() {
                         provider={provider}
                         swiftees={swiftees}
                         nftCost={nftCost}
-                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                       />
                     )}
                   </Col>
@@ -290,7 +292,7 @@ function App() {
                         provider={provider}
                         swifteetickets={swifteetickets}
                         ticketCost={ticketCost}
-                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                       />
                     )}
                   </Col>

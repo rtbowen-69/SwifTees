@@ -30,7 +30,7 @@ const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, setIsL
         />
       ) : (
         <>
-          {ticketBalance >= 4 ? (
+          {ticketBalance <= 4 ? (
             <p>You already have the Maximum of 4 Tickets</p>
           ) : (
             <Button 
