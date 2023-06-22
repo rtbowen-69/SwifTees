@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
 import Navbar from 'react-bootstrap/Navbar'
 import logo from '../logo.png'
 
-const Navigation = () => {
-  const [account, setAccount] = useState(null)
-  const [accountDisplay, setAccountDisplay] = useState('')
 
-  useEffect(() => {
-    const handleAccountsChanged = (accounts) => {
-      if (accounts.length > 0) {
-        const formattedAccount = `${accounts[0].slice(0, 5)}...${accounts[0].slice(38, 42)}`;
-        setAccountDisplay(formattedAccount)
-      } else {
-        setAccountDisplay('')
-      }
-    }
+const Navigation = ({ account, setAccount }) => {
+	const connectionHandler = async () => {
+		const accounts = await window.ethereum.request({ method: 'eth-requestAccounts' })
+		const account = ethers.utils.getAddress(accounts[0])
+		setAccount(account)
 
-    const init = async () => {
-      if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' })
-        if (accounts.length > 0) {
-          setAccount(accounts[0])
-          const formattedAccount = `${accounts[0].slice(0, 5)}...${accounts[0].slice(38, 42)}`;
-          setAccountDisplay(formattedAccount)
-        }
-        window.ethereum.on('accountsChanged', handleAccountsChanged)
-      }
-    }
+	}
 
-    init();
-
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
-      }
-    }
-  }, [])
-
-  return (
+ return (
     <Navbar>
       <img
         alt="logo"
@@ -51,7 +25,7 @@ const Navigation = () => {
         {account && (
           <Navbar.Text>
             <p>
-              <strong>Account:</strong> {accountDisplay}
+              <strong>Account:</strong> {account.slice(0, 5) + '...' + account.slice(38, 42)}
             </p>
           </Navbar.Text>
         )}

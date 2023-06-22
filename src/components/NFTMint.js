@@ -18,14 +18,14 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
       window.alert('An error has occurred. Please try again later');
     }
 
-		setIsLoading(true)
+	setIsLoading(true)
 	}
 
 	return(
    <div className="row"> 
       <div className="col-md-4">
         <div className="text-center">
-          {setIsLoading ? (
+          {false ? (
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <>
@@ -40,7 +40,7 @@ const NFTMint = ({provider, swiftees, nftCost, nftBalance, selectedImage, showca
       </div>
       <div className="col-md-center">
         <Form onSubmit={nftMintHandler} style={{ maxWidth: '400px', margin: '0 auto' }}>
-          {setIsLoading ? (
+          {false ? (
             <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
           ) : (
             <Form.Group>

@@ -55,7 +55,7 @@ contract SwifTeeTickets is ERC721Enumerable, Ownable, Pausable {
 
     uint256 supply = totalSupply();
 
-    if (block.timestamp > presaleMinting) {
+    if (block.timestamp > presaleMinting && block.timestamp < allowPublicMintingOn) {
         require(swifteesContract.balanceOf(msg.sender) > 0, "Caller does not own a SwifTee NFT"); // Presale minting period - Only SwifTee holders can purchase
         require(balanceOf(msg.sender) + _mintAmount <= 4, "Exceeds maximum tickets allowed per wallet");
     } else if (block.timestamp < allowPublicMintingOn) {

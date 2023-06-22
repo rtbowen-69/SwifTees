@@ -8,7 +8,6 @@ const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, setIsL
 
   const ticketMintHandler = async (e) => {
     e.preventDefault()
-    // setIsLoading(true)
 
     try {
       const signer = await provider.getSigner()
@@ -24,7 +23,7 @@ const TicketMint = ({provider, swifteetickets, ticketCost, ticketBalance, setIsL
 
   return(
     <div className="text-center">
-      {setIsLoading ? (
+      {false ? (
         <Spinner 
           animation="border"
           style={{ display: 'block', margin: '0 auto' }}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Tab, Nav, Modal, Button } from 'react-bootstrap'
+import { Container, Row, Col, Tab, Nav } from 'react-bootstrap'
 import Countdown from 'react-countdown'
 import { ethers } from 'ethers'
 
@@ -82,8 +82,8 @@ function App() {
     )
     setSwifTeeTickets(swifteetickets)
 
-    console.log(swiftees.address)
-    console.log(swifteetickets.address)
+    // console.log(swiftees.address)
+    // console.log(swifteetickets.address)
 
     // Fetch Countdowns
     const nftPresaleMintingBigNumber = await swiftees.presaleMinting()
@@ -167,11 +167,11 @@ function App() {
     }
 
     fetchData()
-  }, [isLoading]);
+  }, []);
 
   return (
     <Container>
-      <Navigation account={account} />
+      <Navigation account={account} setAccount={setAccount} />
       <hr />
 
       <Tab.Container id="tabs" defaultActiveKey="nftMint">
@@ -219,17 +219,17 @@ function App() {
                   <Col>
                     <div className="my-2 text-center">
                       {Number(nftPresaleMinting) > Date.now() ? (
-                        <span>Time left till Presale :<Countdown date={Number(nftPresaleMinting)} className="h6" /></span>
+                        <span><strong>Time left till Presale :</strong><Countdown date={Number(nftPresaleMinting)} className="h6" /></span>
                       ) : (
-                        <span>Presale Minting is Open</span>
+                        <span><strong>Presale Minting is Open</strong></span>
                       )}
                     </div>
 
                     <div className="my-2 text-center">
                       {Number(nftPublicMinting) > Date.now() ? (
-                        <span>Time left till Public Sale :<Countdown date={Number(nftPublicMinting)} className="h6" /></span>
+                        <span><strong>Time left till Public Sale :</strong><Countdown date={Number(nftPublicMinting)} className="h6" /></span>
                       ) : (
-                        <span>Public Sale Now Open</span>
+                        <span><strong>Public Sale Now Open</strong></span>
                       )}
                     </div>                    
                     <Info
@@ -243,7 +243,7 @@ function App() {
                         provider={provider}
                         swiftees={swiftees}
                         nftCost={nftCost}
-                        setIsLoading={setIsLoading}
+                        isLoading={isLoading}
                       />
                     )}
                   </Col>
@@ -266,16 +266,16 @@ function App() {
                   <Col>
                     <div className="my-2 text-center">
                       {Number(ticketPresaleMinting) > Date.now() ? (
-                        <span>Time left till Ticket Presale :<Countdown date={Number(ticketPresaleMinting)} className="h6" /></span>
+                        <span><strong>Time left till Ticket Presale :</strong><Countdown date={Number(ticketPresaleMinting)} className="h6" /></span>
                       ) : (
-                        <span>Presale Now Open</span>
+                        <span><strong>Presale Now Open</strong></span>
                       )}
                     </div>
                     <div className="my-2 text-center">
                       {Number(ticketPublicMinting) > Date.now() ? (
-                        <span>Time left till Ticket Public Sale :<Countdown date={Number(ticketPublicMinting)} className="h6" /></span>
+                        <span><strong>Time left till Ticket Public Sale :</strong><Countdown date={Number(ticketPublicMinting)} className="h6" /></span>
                       ) : (
-                        <span>Public Now Open</span>
+                        <span><strong>Public Now Open</strong></span>
                       )}
                     </div>
                     <TicketInfo
@@ -290,7 +290,7 @@ function App() {
                         provider={provider}
                         swifteetickets={swifteetickets}
                         ticketCost={ticketCost}
-                        setIsLoading={setIsLoading}
+                        isLoading={isLoading}
                       />
                     )}
                   </Col>

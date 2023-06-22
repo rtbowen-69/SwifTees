@@ -35,11 +35,6 @@
         "internalType": "string",
         "name": "_baseURI",
         "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "_swifteesContractAddress",
-        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -204,6 +199,19 @@
     "type": "event"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_wallets",
+        "type": "address[]"
+      }
+    ],
+    "name": "addToWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "allowPublicMintingOn",
     "outputs": [
@@ -362,6 +370,25 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "mintedNFTs",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "name",
     "outputs": [
@@ -440,6 +467,19 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_wallets",
+        "type": "address[]"
+      }
+    ],
+    "name": "removeFromWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
@@ -500,19 +540,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_newAllowPublicMintingOn",
-        "type": "uint256"
-      }
-    ],
-    "name": "setAllowPublicMintingOn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "operator",
         "type": "address"
@@ -550,6 +577,19 @@
       }
     ],
     "name": "setPresaleMintOn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newPublicMintOn",
+        "type": "uint256"
+      }
+    ],
+    "name": "setPublicMintOn",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -718,6 +758,25 @@
         "internalType": "uint256[]",
         "name": "",
         "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "whitelist",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
