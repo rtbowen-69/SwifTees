@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Container, Row, Col, Tab, Nav } from 'react-bootstrap'
 import Countdown from 'react-countdown'
 import { ethers } from 'ethers'
@@ -26,7 +26,6 @@ import config from '../config.json'
 function App() {
   const [provider, setProvider] = useState(null)
   const [account, setAccount] = useState(null)
-  const [networkId, setNetworkId] = useState(null)
 
   const [swiftees, setSwifTees] = useState(null)
 
@@ -54,36 +53,28 @@ function App() {
   const [ticketCost, setTicketCost] = useState(0)
 
   const [isLoading, setIsLoading] = useState(true)
-  // const [transactionCompleted, setTransactionCompleted] = useState(false)
 
-  const updateNetworkId = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const network = await provider.getNetwork()
-    setNetworkId(network.chainId)
-  }
-
-  const loadBlockchainData = async () => {
+  const loadBlockchainData = useCallback(async () => {
     // Initiate provider
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(provider)
 
+    const network = await provider.getNetwork()
+
     // Initiate contract
     const swiftees = new ethers.Contract(
-      config[31337].swiftees.address,
+      config[network.chainId].swiftees.address,
       TOKEN_ABI,
       provider
     )
     setSwifTees(swiftees)
 
     const swifteetickets = new ethers.Contract(
-      config[31337].swifteetickets.address,
+      config[network.chainId].swifteetickets.address,
       TICKET_ABI,
       provider
     )
     setSwifTeeTickets(swifteetickets)
-
-    // console.log(swiftees.address)
-    // console.log(swifteetickets.address)
 
     // Fetch Countdowns
     const nftPresaleMintingBigNumber = await swiftees.presaleMinting()
@@ -136,11 +127,6 @@ function App() {
     if (nftBalance.gt(0)) {      // checks to see it a swiftee is owned by the wallet and if it is displays that image
       const ownerNFTId = await swiftees.tokenOfOwnerByIndex(account, 0)
       const ownerNFTURI = await swiftees.tokenURI(ownerNFTId)
-
-      // const response = await fetch(ownerNFTURI)
-      // const metadata = await response.json()
-      // const ownerNFTImage = metadata.image
-
       
       setOwnerNFTImage(ownerNFTImage)
     } else {
@@ -158,7 +144,7 @@ function App() {
       setIsLoading(true)
 
     })
-  }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -169,7 +155,7 @@ function App() {
     }
 
     fetchData()
-  }, [isLoading]);
+  }, [isLoading, loadBlockchainData]);
 
   return (
     <Container>
