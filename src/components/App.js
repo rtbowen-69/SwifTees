@@ -8,6 +8,7 @@ import tsconcertticket from '../images/tsconcertticket.png'
 
 // Components
 import Navigation from './Navigation'
+import Concerts from './Concerts'
 
 import Info from './Info'
 import TicketInfo from './TicketInfo'
@@ -29,11 +30,9 @@ function App() {
 
   const [swiftees, setSwifTees] = useState(null)
 
-  // const [showModal, setShowModal] = useState(false)
-  
   const [ownerNFTImage, setOwnerNFTImage] = useState(null)
   const [swifteetickets, setSwifTeeTickets] = useState(null)
-  const [concertTickets, setConcertTickets] = useState(0)
+  // const [concertTickets, setConcertTickets] = useState(0)
 
   const [nftPresaleMinting, setNftPresaleMinting] = useState("0")
   const [nftPublicMinting, setNftPublicMinting] = useState("0")
@@ -127,7 +126,7 @@ function App() {
     if (nftBalance.gt(0)) {      // checks to see it a swiftee is owned by the wallet and if it is displays that image
       const ownerNFTId = await swiftees.tokenOfOwnerByIndex(account, 0)
       const ownerNFTURI = await swiftees.tokenURI(ownerNFTId)
-      
+
       setOwnerNFTImage(ownerNFTImage)
     } else {
       setOwnerNFTImage(null)
@@ -286,20 +285,40 @@ function App() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="concerts">
-                <div className="my-2 text-center">
-                  <div>
-                    <h3>Concert Details:</h3>
-                    <p>Date and Time: [Add concert date and time here]</p>
-                    <p>Name of Event: [Add event name here]</p>
-                    <p>Location: [Add event location here]</p>
-                    <p>Cost of Event: [Add event cost in Eth here]</p>
-                    {concertTickets > 0 ? (
-                      <button>Buy Tickets</button>
-                    ) : (
-                      <span>Sold Out</span>
-                    )}
-                  </div>
-                </div>
+                <Container>
+                  {Array.from({ length: Math.ceil(Concerts.length / 6) }).map((_, rowIndex) => (
+                    <Row key={rowIndex}>
+                      {Concerts.slice(rowIndex * 6, (rowIndex + 1) * 6).map((concert, index) => (
+                        <Col key={index} sm={4} className="my-2 text-center">
+                          <div className="concert-details">
+                            <h3>Concert Details</h3>
+                            <div className="concert-info">
+                              <span className="label">Date and Time:</span>
+                              <span className="data">{concert.date} - {concert.time}</span>
+                            </div>
+                            <div className="concert-info">
+                              <span className="label">Name of Concert:</span>
+                              <span className="data">{concert.name}</span>
+                            </div>
+                            <div className="concert-info">
+                              <span className="label">Location:</span>
+                              <span className="data">{concert.location}</span>
+                            </div>
+                            <div className="concert-info">
+                              <span className="label">Ticket Cost:</span>
+                              <span className="data">{concert.cost} ETH</span>
+                            </div>
+                          </div>
+                          {concert.tickets > 0 ? (
+                            <button>Buy Tickets</button>
+                          ) : (
+                            <button disabled>Sold OUT</button >
+                          )}
+                        </Col>
+                      ))}
+                    </Row>
+                  ))}
+                </Container>
               </Tab.Pane>
 
               <Tab.Pane eventKey="merchandise">

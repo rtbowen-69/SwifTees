@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.concert-details {
+  text-align: center;
+}
+
+.concert-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.data {
+  text-align: center;
+}
