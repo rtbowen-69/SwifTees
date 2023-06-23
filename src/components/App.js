@@ -286,9 +286,9 @@ function App() {
 
               <Tab.Pane eventKey="concerts">
                 <Container>
-                  {Array.from({ length: Math.ceil(Concerts.length / 6) }).map((_, rowIndex) => (
+                  {Array.from({ length: Math.ceil(Concerts.length / 9) }).map((_, rowIndex) => (
                     <Row key={rowIndex}>
-                      {Concerts.slice(rowIndex * 6, (rowIndex + 1) * 6).map((concert, index) => (
+                      {Concerts.slice(rowIndex * 9, (rowIndex + 1) * 9).map((concert, index) => (
                         <Col key={index} sm={4} className="my-2 text-center">
                           <div className="concert-details">
                             <h3>Concert Details</h3>

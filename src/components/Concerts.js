@@ -44,10 +44,35 @@ const Concerts = [
 		name: "SwifTees Tour - Phoenix",
 		cost: 2,
 		tickets: 0,
-		date: "Jun 23",
+		date: "Jun 30",
 		time: "7:00PM MST",
 		location: "Footprint Center, Phoenix"	
+	},
+	{
+		name: "SwifTees Tour - Seattle",
+		cost: 0.57,
+		tickets: 500,
+		date: "Jul 7",
+		time: "6:30PM PST",
+		location: "Climate Pledge Arena - Seattle, WA"
+	},
+	{
+		name: "SwifTees Tour - Bosie",
+		cost: .85,
+		tickets: 0,
+		date: "Jul 20",
+		time: "3:00PM MST",
+		location: "Idaho Central Arena - Bosie, ID"
+	},
+	{
+		name: "SwifTees Tour - Salt Lake",
+		cost: 1,
+		tickets: 0,
+		date: "Ju1 31",
+		time: "7:00PM CST",
+		location: "Vivint Arena - Salt Lake City, UT"	
 	}
+
 ];
 
 export default Concerts;
