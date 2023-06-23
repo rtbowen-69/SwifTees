@@ -32,7 +32,6 @@ function App() {
 
   const [ownerNFTImage, setOwnerNFTImage] = useState(null)
   const [swifteetickets, setSwifTeeTickets] = useState(null)
-  // const [concertTickets, setConcertTickets] = useState(0)
 
   const [nftPresaleMinting, setNftPresaleMinting] = useState("0")
   const [nftPublicMinting, setNftPublicMinting] = useState("0")
