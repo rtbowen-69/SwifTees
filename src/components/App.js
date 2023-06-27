@@ -292,12 +292,12 @@ function App() {
                           <div className="concert-details">
                             <h3>Concert Details</h3>
                             <div className="concert-info">
-                              <span className="label">Date and Time:</span>
-                              <span className="data">{concert.date} - {concert.time}</span>
-                            </div>
-                            <div className="concert-info">
                               <span className="label">Name of Concert:</span>
                               <span className="data">{concert.name}</span>
+                            </div>
+                            <div className="concert-info">
+                              <span className="label">Date and Time:</span>
+                              <span className="data">{concert.date} - {concert.time}</span>
                             </div>
                             <div className="concert-info">
                               <span className="label">Location:</span>

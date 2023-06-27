@@ -24,6 +24,7 @@ describe('SwifTeeTickets', () => {
     let accounts = await ethers.getSigners()
     deployer = accounts[0]
     minter = accounts[1]
+    // minterSigner = minter
   })
 
   describe('Deployment', () => {
@@ -80,12 +81,28 @@ describe('SwifTeeTickets', () => {
   })
 
   describe('Minting', () => {
-    let transaction, result
+    let transaction, result, minterSigner
 
     const PRESALEMINT_ON = Date.now().toString().slice(0, 10)
     const PUBLICMINT_ON = Date.now().toString().slice(0, 10)
 
     beforeEach(async () => {
+
+      // Mint a SwifTee NFT to the minter address before running other tests
+      const SwifTees = await ethers.getContractFactory('SwifTees')
+      swiftees = await SwifTees.deploy(      
+      NAME,
+      SYMBOL,
+      COST,
+      MAX_SUPPLY,
+      PRESALEMINT_ON,
+      PUBLICMINT_ON,
+      BASE_URI
+      )
+
+      transaction = await swiftees.connect(minter).mint(1, { value: COST })
+      result = await transaction.wait()
+
       const SwifTeeTickets = await ethers.getContractFactory('SwifTeeTickets')
       swifteetickets = await SwifTeeTickets.deploy(
       NAME,
@@ -98,23 +115,17 @@ describe('SwifTeeTickets', () => {
       SWIFTEES_CONTRACT_ADDRESS
       )
 
-      // Mint a SwifTee NFT to the minter address before running other tests
-      const SwifTees = await ethers.getContractFactory('SwifTees')
-      swiftees = await SwifTees.deploy()
-      await swiftees.connect(minter).mint()
-      await swiftees.transferFrom(minter.address, swifteetickets.address, 0) // Transfer the NFT to the SwifTeeTickets contract      
-      console.log('Total Supply Before: ', (await swifteetickets.totalSupply()).toString())
-
       transaction = await swifteetickets.connect(minter).mint(1, { value: COST })
       result = await transaction.wait()
     })
 
     describe('Success', async () => {
 
+
       it('updates total supply', async () => {
-        expect(await swifteetickets.totalSupply()).to.equal(1)      
+        expect(await swifteetickets.totalSupply()).to.equal(1) 
+        console.log('Total Supply After: ', (await swifteetickets.totalSupply()).toString())     
       })
-      console.log('Total Supply Before: ', (await swifteetickets.totalSupply()).toString());
 
       it('updates the contract ether balance', async () => {
         expect(await ethers.provider.getBalance(swifteetickets.address)).to.equal(COST)      
