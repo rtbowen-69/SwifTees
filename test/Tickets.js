@@ -294,13 +294,6 @@ describe('SwifTeeTickets', () => {
         expect(updatedCost).to.not.equal(newCost) // Assert that the cost was successfully updated
         console.log("updatedCost:", ethers.utils.formatEther(updatedCost))
       })
-
-      // it('', async () => {
-      
-      // })
-
     })
-
   })
-
 })

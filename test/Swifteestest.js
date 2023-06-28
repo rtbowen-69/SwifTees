@@ -145,10 +145,6 @@ describe('SwifTees', () => {
 
     describe('Failure', async () => {
 
-      const PRESALEMINT_ON = (Date.now() + 120000).toString().slice(0, 10) // 2 Minutes from now
-      const PUBLICMINT_ON = (Date.now() + 1200000).toString().slice(0, 10) // 20 Minutes from now
-
-
       it('rejects insuffcient payment', async () => {
         await expect(swiftees.connect(minter).mint(1, { value: ether(.0003) })).to.be.reverted
       })
@@ -168,13 +164,7 @@ describe('SwifTees', () => {
       it('rejects public minting before public mint is open', async () => {
         await expect(swiftees.connect(minter).mint(1, { value: COST })).to.be.reverted
       })
-
-      // it('', async () => {
-      
-      // })
-
     })
-
   })
 
   describe('Displaying NFTs', () => {
