@@ -121,7 +121,6 @@ describe('SwifTeeTickets', () => {
 
     describe('Success', async () => {
 
-
       it('updates total supply', async () => {
         expect(await swifteetickets.totalSupply()).to.equal(1) 
         console.log('Total Supply After: ', (await swifteetickets.totalSupply()).toString())     

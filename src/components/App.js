@@ -315,7 +315,11 @@ function App() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="merchandise">
-                {/* Add your merchandise component here */}
+                <div className="text-center" style={{ height: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <p style={{ fontSize: '32px' }}>
+                    This section is still under development. Please check back later for exciting Taylor Swift Merch!
+                  </p>
+                </div>
               </Tab.Pane>
             </Tab.Content>
           </Col>
