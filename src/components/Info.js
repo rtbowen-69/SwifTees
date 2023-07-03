@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 const Info = ({ nftMaxSupply, nftTotalSupply, nftCost, nftBalance }) => {

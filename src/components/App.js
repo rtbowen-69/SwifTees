@@ -132,6 +132,7 @@ function App() {
     }
 
     setIsLoading(false)
+    // setTransactionCompleted(true)
 
     // refresh account on change
     window.ethereum.on('accountsChanged', async () => {
@@ -144,9 +145,14 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (isLoading) {
-      loadBlockchainData()
+    const fetchData = async () => {
+      if (isLoading) {
+        const cleanup = await loadBlockchainData()
+        return cleanup
+      }
     }
+
+    fetchData()
   }, [isLoading, loadBlockchainData]);
 
   return (
@@ -311,7 +317,7 @@ function App() {
                       ))}
                     </Row>
                   ))}
-                </Container>                
+                </Container>
               </Tab.Pane>
 
               <Tab.Pane eventKey="merchandise">
