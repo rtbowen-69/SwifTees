@@ -1,14 +1,14 @@
-
+require('dotenv').config();
 const hre = require("hardhat");
 
 async function main() {
-  const NAME = 'SwifTees'
-  const SYMBOL = 'ST'
-  const COST = ethers.utils.parseUnits('.001', 'ether')
-  const MAX_SUPPLY = 500
-  const PRESALEMINT_ON = (Date.now() + 120000).toString().slice(0, 10)
-  const PUBLICMINT_ON = (Date.now() + 220000).toString().slice(0, 10)
-  const IPFS_METADATA_URI = 'ipfs://QmUCvi3BRHERZa3xhUHvQ1GzAa3uwT2wXdoRGZGkWfMwEt/'
+  const NAME = process.env.PROJECT_NAME
+  const SYMBOL = process.env.PROJECT_SYMBOL
+  const COST = ethers.utils.parseUnits(process.env.MINT_COST, 'ether')
+  const MAX_SUPPLY = process.env.MAX_SUPPLY
+  const PRESALEMINT_ON = new Date(process.env.PRESALEMINT_ON).getTime() / 1000;
+  const PUBLICMINT_ON = new Date(process.env.PUBLICMINT_ON).getTime() / 1000;
+  const IPFS_METADATA_URI = process.env.IPFS_IMAGE_METADATA_CID
 
   // Deploy NFT
   const SwifTees = await hre.ethers.getContractFactory('SwifTees')
