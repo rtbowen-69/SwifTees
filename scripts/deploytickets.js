@@ -2,16 +2,16 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const NAME = 'SwifTeeTickets'
-  const SYMBOL = 'STT'
-  const COST = ethers.utils.parseUnits('.001', 'ether')
-  const MAX_SUPPLY = 100
-  const PRESALEMINT_ON = (Date.now() + 120000).toString().slice(0, 10)
-  const PUBLICMINT_ON = (Date.now() + 20000000).toString().slice(0, 10)
-  const IPFS_METADATA_URI = 'ipfs://QmQ2jnDYecFhrf3asEWjyjZRX1pZSsNWG3qHzmNDvXa9qg/'
+  const NAME = process.env.T_PROJECT_NAME
+  const SYMBOL = process.env.T_PROJECT_SYMBOL
+  const COST = ethers.utils.parseUnits(process.env.T_MINT_COST, 'ether')
+  const MAX_SUPPLY = process.env.T_MAX_SUPPLY
+  const PRESALEMINT_ON = new Date(process.env.T_PRESALEMINT_ON).getTime() / 1000;
+  const PUBLICMINT_ON = new Date(process.env.T_PUBLICMINT_ON).getTime() / 1000;
+  const IPFS_METADATA_URI = process.env.T_IPFS_IMAGE_METADATA_CID
   const SWIFTEES_CONTRACT_ADDRESS = '0x5fbdb2315678afecb367f032d93f642f64180aa3'
 
-  // Deploy NFT
+  // Deploy Ticket NFT
   const SwifTeeTickets = await hre.ethers.getContractFactory('SwifTeeTickets')
   let swifTeeTickets = await SwifTeeTickets.deploy(
     NAME,
