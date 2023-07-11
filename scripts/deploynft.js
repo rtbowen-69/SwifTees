@@ -11,7 +11,7 @@ async function main() {
   const IPFS_METADATA_URI = process.env.IPFS_IMAGE_METADATA_CID
 
   // Deploy NFT
-  const SwifTees = await hre.ethers.getContractFactory('SwifTees')
+  const SwifTees = await ethers.getContractFactory('SwifTees')
   let swifTees = await SwifTees.deploy(
     NAME,
     SYMBOL,
