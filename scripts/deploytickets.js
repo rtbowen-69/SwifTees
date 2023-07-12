@@ -9,7 +9,7 @@ async function main() {
   const PRESALEMINT_ON = new Date(process.env.T_PRESALEMINT_ON).getTime() / 1000;
   const PUBLICMINT_ON = new Date(process.env.T_PUBLICMINT_ON).getTime() / 1000;
   const IPFS_METADATA_URI = process.env.T_IPFS_IMAGE_METADATA_CID
-  const SWIFTEES_CONTRACT_ADDRESS = '0x5fbdb2315678afecb367f032d93f642f64180aa3'
+  const SWIFTEES_CONTRACT_ADDRESS = '0x151C8dcC7f59974eD9d4ED0C4D5eDCB91dC9F9c7'
 
   // Deploy Ticket NFT
   const SwifTeeTickets = await hre.ethers.getContractFactory('SwifTeeTickets')

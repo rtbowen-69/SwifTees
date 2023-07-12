@@ -10,7 +10,7 @@ module.exports = {
     localhost: {},
     Linea: {
       url: `https://linea-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      account: privateKey,
+      accounts: [privateKey],
     }
   },
 };
