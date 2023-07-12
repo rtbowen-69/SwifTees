@@ -4,7 +4,7 @@ import Countdown from 'react-countdown'
 import { ethers } from 'ethers'
 
 import showcase from '../showcase.png'
-import tsconcertticket from '../images/tsconcertticket.png'
+import tsconcertticket from '../tsconcertticket.png'
 
 // Components
 import Navigation from './Navigation'
