@@ -124,7 +124,7 @@ function App() {
     // console.log(nftPresaleMinting)
     if (nftBalance.gt(0)) {      // checks to see it a swiftee is owned by the wallet and if it is displays that image
       const ownerNFTId = await swiftees.tokenOfOwnerByIndex(account, 0)
-      const ownerNFTURI = await swiftees.tokenURI(ownerNFTId)
+      const ownerNFTImage = await swiftees.tokenURI(ownerNFTId)
 
       setOwnerNFTImage(ownerNFTImage)
     } else {
